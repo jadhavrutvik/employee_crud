@@ -1,0 +1,50 @@
+{% extends 'main.html'%}
+
+
+{%block title%}
+Add
+{%endblock%}
+
+{%block body%}
+
+<center>
+    <div style="text-align: center;height: 500px;width: 500px;background-color: azure;border-radius: 20px;">
+    <form  action="" method="post">
+        {%csrf_token%}
+        <h1>Update Employee</h1>
+
+
+    <label style="margin-top: 20px;">Employee Id:</label><input style="margin-left: 33px;margin-top: 20px;" value="{{i.emp_id}}" type="number" name="id" placeholder="enter id">
+    <br><br> 
+    <label>Employee name:</label><input style="margin-left: 3px;" value="{{i.emp_name}}" type="text" name="name" placeholder="enter name">
+    <br><br>
+    <label>Employee Email:</label><input style="margin-left: 3px;" value="{{i.emp_email_id}}" type="email" name="email" placeholder="enter email">
+    <br><br>
+    <label>Employee Gender:</label><input type="radio" value="male" name="gender">Male<input type="radio" value="female" name="gender">Female
+
+    <br><br>
+    <label>Employee Dept:</label>
+    <select name="dept">
+        <option value="">select department</option>
+        {%for i in d%}
+        <option value="{{i.add_dept}}">{{i.add_dept}}</option>
+        {%endfor%}
+    </select>
+    <br><br>
+    <label>Employee Mobile::</label><input type="text" value="{{i.emp_phone}}" name="mobile" placeholder="enter mobile no">
+    
+    <br><br>
+    <button style="float: left;margin-left: 100px;" type="submit">Submit</button>
+    <button style="float: left;margin-left: 100px;" type="reset">Reset</button>
+</form>
+
+
+
+
+
+
+</div>
+</center>
+
+{%endblock%}
+

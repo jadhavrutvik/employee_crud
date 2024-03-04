@@ -1,0 +1,287 @@
+{% extends 'main1.html'%}
+
+
+{%block title%}
+Update
+{%endblock%}
+ {%block style%}
+<style>
+    li{
+            float: left;
+            margin-left: 50px;
+            font-weight: bold;
+            color: antiquewhite;
+            margin-top: 0px;
+
+        }
+        ul{
+            list-style-type: none;
+        }
+        li:hover{
+            cursor: pointer;
+            color: black;
+        }
+    table,thead,th,td,tr,tbody{
+        border: 2px solid;
+        
+
+    }
+    table{
+        width: 1000px;
+        /* height:; */
+        margin-left: 10px;
+        margin-top: 5px;
+        /* float: inline-end; */
+    }
+    th{
+        text-align: center;
+        height: 50px;
+    }
+    tr{
+        height: 40px;
+    }
+    td{
+        text-align: center;
+    }
+    button{
+            height: 40px;
+            width: 80px;
+            border-radius: 20px;
+        }
+</style>
+
+{% endblock %} 
+{%block nav%}
+<nav>
+    <ul>
+        <a href="/"> <li>Home</li></a>
+        <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  > <li>Add</li></a>
+        <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  > <li>Dept</li></a>
+
+
+        <!-- <a href="/display/"> <li>Update</li></a> -->
+
+        <a href=""> <li>About Us</li></a>
+
+
+    </ul>
+</nav>
+
+{%endblock%}
+
+{%block body%}
+
+{{emp}}
+
+ <table >
+    <thead>
+        <tr>
+            <th>Emp ID</th>
+            <th>Emp Name</th>
+            <th>Emp Email</th>
+            <th>Emp Gender</th>
+            <th>Emp Phone</th>
+            <th>Emp Dept</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        {% for i in emp %}
+        <tr>
+            <td >{{i.emp_id}}</td>
+            <td>{{i.emp_name}}</td>
+            <td>{{i.emp_email_id}}</td>
+            <td>{{i.emp_gender}}</td>
+            <td>{{i.emp_phone}}</td>
+            <td>{{i.emp_dept}}</td>
+            <td>
+             
+               <button style="width: 70px;"  onclick="confirmDelete()" >Delete</button>
+           
+                <a href=""  data-bs-toggle="modal" data-bs-target="#staticBackdrop2-{{i.id}}" ><button style="width: 70px;">Update</button></a>
+            </td>
+
+
+
+
+        </tr>
+        {%endfor%}
+    </tbody>
+    
+</table>
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+  </button> -->
+  
+  <!-- Add Employee modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">  ADD EMPLOYEE</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center;height: 500px;width: 400px;background-color: azure;border-radius: 20px;">
+                <form  action="/add/" method="post">
+                    {%csrf_token%}
+                    <!-- <h1>Add Employee</h1> -->
+            
+            
+                <label style="margin-top: 20px;">Employee Id:</label><input style="margin-left: 33px;margin-top: 20px;" type="number" name="id" placeholder="enter id">
+                <br><br>
+                <label>Employee name:</label><input style="margin-left: 3px;" type="text" name="name" placeholder="enter name">
+                <br><br>
+                <label>Employee Email:</label><input style="margin-left: 3px;" type="email" name="email" placeholder="enter email">
+                <br><br>
+                <label>Employee Gender:</label>
+                <input type="radio" value="Male" name="gender">Male
+                <input type="radio" value="Female" name="gender">Female
+            
+                <br><br>
+                <label>Employee Dept:</label>
+                <select name="dept">
+                    <option value="">select department</option>
+                    {%for i in d%}
+                    <option value="{{i.add_dept}}">{{i.add_dept}}</option>
+                    {%endfor%}
+                </select>
+                <br><br>
+                <label>Employee Mobile::</label><input type="text"  name="mobile" placeholder="enter mobile no">
+                
+                <br><br>
+                <button style="float: left;margin-left: 100px;" type="submit">Submit</button>
+                <button style="float: left;margin-left: 100px;" type="reset">Reset</button>
+            </form>
+            
+            
+            
+            
+            
+            
+            </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Department Add modal -->
+
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">ADD DEPARTMENT</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center;height: 300px;width: 300px;border-radius: 20px;float: left;margin-top: 100px;margin-left: 50px;">
+                <form  action="/add_dept/" method="post" style="float: left; margin-top: 50px;">
+                    {%csrf_token%}
+                    <!-- <h3>Add Department</h3> -->
+                    <label for="add_dept " style="margin-top: 30px;">Department:</label><input type="text" name="add_dept" placeholder="enter department name" style="margin-top: 30px;">
+                
+                
+                <br><br>
+                <button style="float: left;margin-left: 50px;" type="submit">Submit</button>
+                <button style="float: left;margin-left: 60px;" type="reset">Reset</button>
+            </form>
+            
+            
+            
+            
+            
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ <!-- Update Employee  -->
+ {%for i in emp%}
+ <div class="modal fade" id="staticBackdrop2-{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Employee</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <!-- <div style="text-align: center;height: 500px;width: 500px;background-color: azure;border-radius: 20px;"> -->
+                <form  action="/update/{{i.id}}" method="post">
+                    {%csrf_token%}
+                    
+            
+            
+                <label style="margin-top: 20px;">Employee Id:</label><input style="margin-left: 33px;margin-top: 20px;" value="{{i.emp_id}}" type="number" name="id" placeholder="enter id">
+                <br><br> 
+                <label>Employee name:</label><input style="margin-left: 3px;" value="{{i.emp_name}}" type="text" name="name" placeholder="enter name">
+                <br><br>
+                <label>Employee Email:</label><input style="margin-left: 3px;" value="{{i.emp_email_id}}" type="email" name="email" placeholder="enter email">
+                <br><br>
+                <label>Employee Gender:</label><input type="radio" value="male" name="gender">Male<input type="radio" value="female" name="gender">Female
+            
+                <br><br>
+                <label>Employee Dept:</label>
+                <select name="dept">
+                    <option value="">select department</option>
+                    {%for i in d%}
+                    <option value="{{i.add_dept}}">{{i.add_dept}}</option>
+                    {%endfor%}
+                </select>
+                <br><br>
+                <label>Employee Mobile::</label><input type="text" value="{{i.emp_phone}}" name="mobile" placeholder="enter mobile no">
+                
+                <br><br>
+                <button style="float: left;margin-left: 100px;" type="submit">Submit</button>
+                <button style="float: left;margin-left: 100px;" type="reset">Reset</button>
+            </form>
+            
+            
+            
+            
+            
+            
+            <!-- </div> -->
+            
+            
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+  
+  <script>
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('delete-form').submit(); // Submit the form
+        } else {
+            // Do nothing or provide feedback to the user
+        }
+    }
+    </script>
+    
+
+{%endblock%}
+

@@ -1,0 +1,111 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login </title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <style>
+        button{
+            width: 200px;
+            height: 30px;
+        }
+        label{
+            color: white;
+        }
+        h1{
+            color: white;
+            
+        }
+        
+        .d{
+            border: 2px solid white;
+            border-radius: 20px;
+        }
+        .d:hover{
+            border: 2px solid yellow;
+            border-radius: 20px;
+        }
+        button:hover{
+            cursor: pointer;
+        }
+        button{
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body style="background-color: black;">
+
+    <center>
+        <div style="height: 400px;width: 300px; margin-top: 50px;" class="d">
+        <form  action="" method="post">
+            {%csrf_token%}
+            <h1 style="margin-top: 50px;">Login</h1>
+    
+    
+        
+        <label>User name:</label><input style="margin-left: 3px;margin-top: 30px;" type="text" name="username" placeholder="enter name">
+        <br><br>
+        <label>Password :</label><input style="margin-left: 3px;" type="password" name="pass" placeholder="enter password">
+        <br><br>
+       
+        
+        <button style="float: left;margin-left: 70px;" type="submit">login</button>
+        <br><br><br>
+        <a href="/">Creater account</a>
+        <a href="" style="margin-left: 40px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">Forgot password</a>
+        
+    </form>
+    </div>
+    
+    </center>
+    <div style="background-color: black;" class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: black;border: black;">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel" >  Forgot Password</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <center>
+            <div class="modal-body" style="background-color: black;">
+                <div style="height: 250px;width: 350px; " class="d">
+                    <form  action="/forgot/" method="post">
+                        {%csrf_token%}
+                        
+                
+                
+                    
+                    <label>Email:</label><input style="margin-left: 3px; margin-top: 50px;" type="text" name="email" placeholder="enter email id">
+                    <br><br>
+                   
+                    
+                    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop4" style="float: left;margin-left: 70px;" type="submit">submit</button>
+                    
+                </form>
+            </div>
+        </center>
+                
+                
+            </div>
+            <div class="modal-footer" style="border: black;">
+              <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Understood</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+
+
+
+
+</body>
+</html>

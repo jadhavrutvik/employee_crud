@@ -1,0 +1,104 @@
+{% extends 'main1.html'%}
+
+
+{%block title%}
+Add
+{%endblock%}
+{%block style%}
+<style>
+    li{
+            float: left;
+            margin-left: 50px;
+            font-weight: bold;
+            color: antiquewhite;
+            margin-top: 0px;
+
+        }
+        ul{
+            list-style-type: none;
+        }
+        li:hover{
+            cursor: pointer;
+            color: black;
+        }
+    table,thead,th,td,tr,tbody{
+        border: 2px solid;
+        
+
+    }
+    table{
+        width: 500px;
+        /* height:; */
+        margin-left: 10px;
+        margin-top: 5px;
+        float: left;
+        /* float: inline-end; */
+    }
+    th{
+        text-align: center;
+        height: 50px;
+    }
+    tr{
+        height: 40px;
+    }
+    td{
+        text-align: center;
+    }
+    input{
+        border-radius: 2px;
+    }
+    button{
+        border-radius: 10px;
+        width: 80px;
+    }
+</style>
+{%endblock%}
+
+{%block body%}
+
+
+   
+        <table >
+            <thead>
+                <tr>
+                    <th>Sr.</th>
+                    <th>Department</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in d%}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.add_dept}}</td>
+                    <td><a href="/add_dept/"><button style="float: left;margin-left: 50px;" type="submit">Delete</button></a>
+                    </td>
+
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    <div style="text-align: center;height: 300px;width: 300px;border-radius: 20px;float: left;margin-top: 100px;margin-left: 50px;">
+    <form  action="" method="post" style="float: left; margin-top: 50px;">
+        {%csrf_token%}
+        <h3>Add Department</h3>
+        <label for="add_dept " style="margin-top: 30px;">Department:</label><input type="text" name="add_dept" placeholder="enter department name" style="margin-top: 30px;">
+    
+    
+    <br><br>
+    <button style="float: left;margin-left: 50px;" type="submit">Submit</button>
+    <button style="float: left;margin-left: 60px;" type="reset">Reset</button>
+</form>
+
+
+
+
+
+    </div>
+
+
+
+{%endblock%}
+
