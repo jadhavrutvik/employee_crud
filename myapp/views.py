@@ -12,77 +12,92 @@ def admin_page(request):
     return render(request,'main.html')
 
 
-@login_required(login_url='/login/')
+
 def home(request):
-    return render(request,'home.html')
+    if "logged_in" in request.session:
+        return render(request,'home.html')
+    else:
+        return redirect("/login/")
 
-@login_required(login_url='/login/')
+
 def display(request):
-    d=Dept.objects.values('add_dept')
-   
-
+    if "logged_in" in request.session:
+        d=Dept.objects.values('add_dept')
     
-    emp=Employee.objects.all()
-    context={
-        'emp':emp,
-        'd':d
-    }
 
-    return render(request,'display.html',context)
+        
+        emp=Employee.objects.all()
+        context={
+            'emp':emp,
+            'd':d
+        }
+
+        return render(request,'display.html',context)
+    else:
+        return redirect('/login/')
 
 
-@login_required(login_url='login')
+
 def add(request):
-    d=Dept.objects.values('add_dept')
-    context={
-        'd':d
-    }
-    if request.method=="POST":
-        emp_id=request.POST.get('id')
-        emp_name=request.POST.get('name')
-        emp_email_id=request.POST.get('email')
-        emp_gender=request.POST.get('gender')
-        emp_phone=request.POST.get('mobile')
-        emp_dept=request.POST.get('dept')
-        
+    if "logged_in" in request.session:
+        d=Dept.objects.values('add_dept')
+        context={
+            'd':d
+        }
+        if request.method=="POST":
+            emp_id=request.POST.get('id')
+            emp_name=request.POST.get('name')
+            emp_email_id=request.POST.get('email')
+            emp_gender=request.POST.get('gender')
+            emp_phone=request.POST.get('mobile')
+            emp_dept=request.POST.get('dept')
+            
 
-        emp=Employee(emp_id=emp_id,emp_name=emp_name,emp_email_id=emp_email_id,emp_phone=emp_phone,emp_dept=emp_dept,emp_gender=emp_gender)
-        
-        emp.save()
-        return redirect('/display/')
-    return render(request,'add.html',context)
+            emp=Employee(emp_id=emp_id,emp_name=emp_name,emp_email_id=emp_email_id,emp_phone=emp_phone,emp_dept=emp_dept,emp_gender=emp_gender)
+            
+            emp.save()
+            return redirect('/display/')
+        return render(request,'add.html',context)
+    else:
+        return redirect("/login/")
 
 
-@login_required(login_url='/login/')
+
 def update(request,id):
-    d=Dept.objects.values('add_dept')
-    
-    emp=Employee.objects.get(id=id)
-    
-    
-    context={
-        'i':emp,
-        'd':d
-    }
-    print(context)
-    if request.method=="POST":
-        emp.emp_id=request.POST.get('id')
-        emp.emp_name=request.POST.get('name')
-        emp.emp_email_id=request.POST.get('email')
-        emp.emp_gender=request.POST.get('gender')
-        emp.emp_phone=request.POST.get('mobile')
-        emp.emp_dept=request.POST.get('dept')
-        emp.save()
-        return redirect('/display/')
-    return render(request,'display.html',context)
+    if "logged_in" in request.session:
+        d=Dept.objects.values('add_dept')
+        
+        emp=Employee.objects.get(id=id)
+        
+        
+        context={
+            'i':emp,
+            'd':d
+        }
+        print(context)
+        if request.method=="POST":
+            emp.emp_id=request.POST.get('id')
+            emp.emp_name=request.POST.get('name')
+            emp.emp_email_id=request.POST.get('email')
+            emp.emp_gender=request.POST.get('gender')
+            emp.emp_phone=request.POST.get('mobile')
+            emp.emp_dept=request.POST.get('dept')
+            emp.save()
+            return redirect('/display/')
+        return render(request,'display.html',context)
+    else:
+        return redirect("/login/")
 
 
-@login_required(login_url='/login/')
+
 def delete(request,id):
-    if request.method=="POST":
+    # if request.method=="POST":
+    if "logged_in" in request.session:
         emp=Employee.objects.get(id=id)
         emp.delete()
         return redirect('/display/')
+    else:
+        return redirect("/login/")
 
    
     
@@ -132,7 +147,7 @@ def login(request):
         
         
         
-        if User.objects.filter(username=uname).exists() and check_password(pass1,user.password) :
+        if check_password(pass1,user.password) :
             request.session['logged_in'] = True
             return redirect('/home/')
         else:
@@ -141,39 +156,48 @@ def login(request):
     return render(request,'login.html')
 
 def dept(request):
-    
-    d=Dept.objects.all()
-    context={
-        'd':d
-    }
-    if request.method=="POST":
-        add_dept=request.POST.get('add_dept')
-        d1=Dept(add_dept=add_dept)
+    if "logged_in" in request.session:
 
-        d1.save()
-        return redirect('/display/')
-    return render(request,'add_dept.html',context)
+    
+
+    
+        d=Dept.objects.all()
+        context={
+            'd':d
+        }
+        if request.method=="POST":
+            add_dept=request.POST.get('add_dept')
+            d1=Dept(add_dept=add_dept)
+
+            d1.save()
+            return redirect('/display/')
+        return render(request,'add_dept.html',context)
+    return redirect("/login/")
 
 def forgot(request):
-    if request.method=="POST":
-        email=request.POST.get('email')
-        if User.objects.filter(email=email).exists():
-            u=User.objects.filter(email=email)
-            
+    if "logged_in" in request.session:
 
-            otp=random.randint(1000,9999)
-            
-            msg=f"Your OTP is {otp}"
-            sub=f"forgot password"
-            send_mail(sub,msg,'jrutvik66@gmail.com',[email],fail_silently=False)
-            return render(request,'change_pass.html',{'email':email,'opt':otp})
-            # return redirect('/change_pass/',{'email':email,'opt':otp})
+        if request.method=="POST":
+            email=request.POST.get('email')
+            if User.objects.filter(email=email).exists():
+                u=User.objects.filter(email=email)
+                
 
-        return redirect('/change_pass/',{'email':email,'opt':otp})
-    return render(request,'login.html')
+                otp=random.randint(1000,9999)
+                
+                msg=f"Your OTP is {otp}"
+                sub=f"forgot password"
+                send_mail(sub,msg,'jrutvik66@gmail.com',[email],fail_silently=False)
+                return render(request,'change_pass.html',{'email':email,'opt':otp})
+                # return redirect('/change_pass/',{'email':email,'opt':otp})
+
+            return redirect('/change_pass/',{'email':email,'opt':otp})
+        return render(request,'login.html')
+    else:
+        return redirect("/login/")
 
 
-@login_required(login_url='/login/')
+
 def change_pass(request):
     if request.method=="POST":
         email=request.POST.get('email')
@@ -198,3 +222,9 @@ def change_pass(request):
 
     return render(request,'change_pass.html')
 
+def logout(request):
+    
+    if "logged_in" in request.session:
+        request.session.clear()
+        return redirect('/')
+    return redirect("/login/")

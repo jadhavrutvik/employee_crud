@@ -29,6 +29,7 @@ urlpatterns = [
         path('login/',login),
         path('add_dept/',dept),
         path('forgot/',forgot),
-        path('change_pass/',change_pass)
+        path('change_pass/',change_pass),
+        path('log_out/',logout)
    
 ]

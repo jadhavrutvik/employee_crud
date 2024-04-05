@@ -54,7 +54,7 @@ Update
 {%block nav%}
 <nav>
     <ul>
-        <a href="/"> <li>Home</li></a>
+        <a href="/home/"> <li>Home</li></a>
         <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  > <li>Add</li></a>
         <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  > <li>Dept</li></a>
 
@@ -62,6 +62,9 @@ Update
         <!-- <a href="/display/"> <li>Update</li></a> -->
 
         <a href=""> <li>About Us</li></a>
+        <a href="/log_out/"> <li>log_out </li></a>
+
+
 
 
     </ul>
@@ -71,7 +74,7 @@ Update
 
 {%block body%}
 
-{{emp}}
+<!-- {{emp}} -->
 
  <table >
     <thead>
@@ -98,7 +101,7 @@ Update
             <td>{{i.emp_dept}}</td>
             <td>
              
-               <button style="width: 70px;"  onclick="confirmDelete()" >Delete</button>
+               <a href="/delete/{{i.id}}"><button style="width: 70px;"  onclick="confirmDelete()" >Delete</button></a>
            
                 <a href=""  data-bs-toggle="modal" data-bs-target="#staticBackdrop2-{{i.id}}" ><button style="width: 70px;">Update</button></a>
             </td>
